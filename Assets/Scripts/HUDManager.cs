@@ -42,10 +42,4 @@ public class HUDManager : MonoBehaviour
 		totalFood.text = amt;
 	}
 
-	public void Update() {
-		if(Input.GetKeyDown(KeyCode.B)) {
-			ToggleBuildMode();
-		}
-	}
-
 }

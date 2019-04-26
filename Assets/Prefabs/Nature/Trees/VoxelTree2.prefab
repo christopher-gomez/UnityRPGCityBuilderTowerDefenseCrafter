@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5915862070133819018}
-  - component: {fileID: 605191688146643474}
+  - component: {fileID: 4287904300224282630}
   m_Layer: 0
   m_Name: VoxelTree2
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &605191688146643474
+--- !u!114 &4287904300224282630
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -64,7 +64,7 @@ GameObject:
   - component: {fileID: 3781376840443986944}
   - component: {fileID: 3600683797274763481}
   - component: {fileID: 6921061689439075283}
-  - component: {fileID: 6071920327702523818}
+  - component: {fileID: 3861917132809381463}
   m_Layer: 0
   m_Name: default
   m_TagString: Untagged
@@ -142,7 +142,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 24, y: 38, z: 24.000002}
+  m_Size: {x: 23, y: 38, z: 23}
   m_Center: {x: -0.15506077, y: -4.539925, z: -0.27785397}
 --- !u!208 &6921061689439075283
 NavMeshObstacle:
@@ -160,7 +160,7 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: -0.155, y: -4.5400004, z: -0.27800003}
   m_TimeToStationary: 0.5
---- !u!54 &6071920327702523818
+--- !u!54 &3861917132809381463
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

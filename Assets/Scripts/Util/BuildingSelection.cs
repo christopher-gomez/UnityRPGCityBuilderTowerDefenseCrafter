@@ -8,18 +8,18 @@ public class BuildingSelection : MonoBehaviour
 	private GameManager gm;
 	private HUDManager hm;
 	void Start()
-    {
+	{
 		gm = FindObjectOfType<GameManager>();
 		hm = FindObjectOfType<HUDManager>();
 	}
 	public void Init(GameObject building)
-    {
+	{
 		this.building = building;
-		GetComponentInChildren<Text>().text = building.GetComponent<Building>().buildingName;
+		GetComponentInChildren<Text>().text = building.GetComponentInChildren<Building>().buildingName;
 	}
 
-    public void select()
-    {
+	public void select()
+	{
 		gm.InitBuild(building);
 		hm.CloseSelectionMenu();
 	}

@@ -8,7 +8,9 @@ public abstract class GBuilding : Building
 
 	public ResourceType type;
 	public float rate = 10f; // Rate at which building generates resources. DEFAULT: 10 seconds
+	[HideInInspector]
 	public float generatedResource;
+	[HideInInspector]
 	public float totalGeneratedResources;
 	public int level = 1;
 

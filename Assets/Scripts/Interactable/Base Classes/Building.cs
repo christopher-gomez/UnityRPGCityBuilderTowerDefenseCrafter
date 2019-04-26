@@ -10,7 +10,21 @@ public abstract class Building : WorldObject
 	}
 	public string buildingName;
 
-	public Vector2 lengthByWidth;
+	[HideInInspector]
+	public bool isValidPosition;
+
+	[SerializeField]
+	private Material validPosition;
+	[SerializeField]
+	private Material invalidPosition;
+	[SerializeField]
+	public GameObject selectionArea;
+
+	public override void Start()
+	{
+		base.Start();
+		isValidPosition = true;
+	}
 
 	public override void OnLeftClick()
 	{
@@ -20,5 +34,41 @@ public abstract class Building : WorldObject
 	public override void OnRightClick()
 	{
 		base.OnRightClick();
+	}
+
+	public void OnTriggerEnter(Collider col)
+	{
+		WorldObject obj = col.gameObject.transform.parent.GetComponentInChildren<WorldObject>();
+		if (obj == null)
+		{
+			return;
+		}
+		if (obj.ObjectName.ToString() != "Grass" && obj.ObjectName.ToString() != "Flower")
+		{
+			// Debug.Log("Collision with " + obj.ObjectName);
+			isValidPosition = false;
+			foreach(Transform t in selectionArea.transform)
+			{
+				t.GetComponentInChildren<MeshRenderer>().material = invalidPosition;
+			}
+		}
+	}
+
+	public void OnTriggerExit(Collider col)
+	{
+		WorldObject obj = col.gameObject.transform.parent.GetComponentInChildren<WorldObject>();
+		if (obj == null)
+		{
+			return;
+		}
+		if (obj.ObjectName.ToString() != "Grass" && obj.ObjectName.ToString() != "Flower")
+		{
+			// Debug.Log("Collision with " + obj.ObjectName);
+			isValidPosition = true;
+			foreach (Transform t in selectionArea.transform)
+			{
+				t.GetComponentInChildren<MeshRenderer>().material = validPosition;
+			}
+		}
 	}
 }

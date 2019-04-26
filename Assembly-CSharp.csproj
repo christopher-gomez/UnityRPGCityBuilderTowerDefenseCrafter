@@ -128,7 +128,6 @@
      <Compile Include="Assets\Scripts\Player\PlayerControlInput.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
      <Compile Include="Assets\Scripts\Util\BuildingSelection.cs" />
-     <Compile Include="Assets\Scripts\Util\GroundPlacementController.cs" />
      <Compile Include="Assets\Scripts\Util\PopulateSelection.cs" />
      <None Include="Assets\External Assets\EnvironmentAssets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\External Assets\EnvironmentAssets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />

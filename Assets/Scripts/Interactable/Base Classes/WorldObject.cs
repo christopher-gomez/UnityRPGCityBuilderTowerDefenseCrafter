@@ -25,12 +25,12 @@ public abstract class WorldObject : MonoBehaviour, Interactable
 
 	public void OnBecameVisible()
 	{
-		gameObject.SetActive(true);
+		//gameObject.SetActive(true);
 	}
 
 	public void OnBecameInvisible()
 	{
-		gameObject.SetActive(false);
+		//gameObject.SetActive(false);
 	}
 	public virtual void Start()
 	{

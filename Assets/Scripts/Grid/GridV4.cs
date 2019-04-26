@@ -22,8 +22,6 @@ public class GridV4 : MonoBehaviour
 	private List<Vector3> locations;
 	private List<Vector3> filledLocations;
 	private List<GameObject> objectsInScene;
-	[SerializeField]
-	private GameObject backgroundPrefab;
 	public bool buildMode = false;
 	[SerializeField]
 	private bool placeRandomTrees = true;
@@ -37,14 +35,14 @@ public class GridV4 : MonoBehaviour
 	[SerializeField]
 	private Material treeMaterial;
 
-	private GridMouse mouseOver;
+	private GridMouse mouse;
 	private GameManager gm;
 	private int limitX;
 	private int limitZ;
 
 	void Awake()
 	{
-		mouseOver = GetComponent<GridMouse>();
+		mouse = GetComponent<GridMouse>();
 		gm = GetComponent<GameManager>();
 		limitX = sizeX - 1;
 		limitZ = sizeZ - 1;
@@ -115,13 +113,6 @@ public class GridV4 : MonoBehaviour
 		gm.Spawn();
 	}
 
-	private void PlaceBaackground()
-	{
-		GameObject y = Instantiate(backgroundPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-		y.name = "Backkground";
-		y.transform.parent = transform;
-	}
-
 	private void BuildMesh()
 	{
 		int numTiles = sizeX * sizeZ;
@@ -181,81 +172,6 @@ public class GridV4 : MonoBehaviour
 		mc.sharedMesh = land;
 	}
 
-	private void BuildMapLimitsMesh()
-	{
-		GameObject y = new GameObject();
-		y.name = "LimitTrees";
-		y.transform.parent = transform;
-
-		// Bottom Left
-		for (float x = 0; x < 1; x += 1.0f)
-		{
-			for (float z = 0; z < limitZ; z += 1.0f)
-			{
-				Vector3 pos = new Vector3(x, 0, z);
-				GameObject t = Instantiate(trees[Random.Range(0, trees.Length)], pos, Quaternion.identity);
-				t.transform.parent = y.transform;
-			}
-		}
-
-		OptimzeMesh(y, treeMaterial);
-
-		GameObject q = new GameObject();
-		q.name = "LimitTrees";
-		q.transform.parent = transform;
-
-
-		// Bottom right
-		for (float z = 0; z < 1; z += 1.0f)
-		{
-			for (float x = 0; x < limitX; x += 1.0f)
-			{
-				Vector3 pos = new Vector3(x, 0, z);
-				GameObject t = Instantiate(trees[Random.Range(0, trees.Length)], pos, Quaternion.identity);
-				t.transform.parent = q.transform;
-			}
-		}
-
-		OptimzeMesh(q, treeMaterial);
-
-		GameObject j = new GameObject();
-		j.name = "LimitTrees";
-		j.transform.parent = transform;
-
-
-		// Top left
-		for (float z = limitZ; z < sizeZ; z += 1.0f)
-		{
-			for (float x = 0; x < limitX; x += 1.0f)
-			{
-				Vector3 pos = new Vector3(x, 0, z);
-				GameObject t = Instantiate(trees[Random.Range(0, trees.Length)], pos, Quaternion.identity);
-				t.transform.parent = j.transform;
-			}
-		}
-
-		OptimzeMesh(j, treeMaterial);
-
-		GameObject k = new GameObject();
-		k.name = "LimitTrees";
-		k.transform.parent = transform;
-
-
-		// Top right, go the extra square cause no other loop did
-		for (float x = limitX; x < sizeX; x += 1.0f)
-		{
-			for (float z = 0; z < sizeZ; z += 1.0f)
-			{
-				Vector3 pos = new Vector3(x, 0, z);
-				GameObject t = Instantiate(trees[Random.Range(0, trees.Length)], pos, Quaternion.identity);
-				t.transform.parent = y.transform;
-			}
-		}
-
-		OptimzeMesh(k, treeMaterial);
-
-	}
-
 	[SerializeField]
 	private Material grassMaterial;
 
@@ -311,7 +227,7 @@ public class GridV4 : MonoBehaviour
 	private bool generateGrass = false;
 
 	[SerializeField]
-	private bool optimzeGrassMesh = true;
+	private bool optimzeGrassMesh = false;
 	private GameObject placeGrass()
 	{
 		GameObject y = new GameObject();
@@ -404,7 +320,7 @@ public class GridV4 : MonoBehaviour
 		meshRenderer.material = new Material(Shader.Find("Sprites/Default"));
 		meshRenderer.material.color = Color.white;
 		buildMode = true;
-		mouseOver.ActivatePreview(obj);
+		mouse.ActivatePreview(obj);
 	}
 
 	public void InitCells()
@@ -444,6 +360,11 @@ public class GridV4 : MonoBehaviour
 	public void DestroyCells()
 	{
 		buildMode = false;
+		if (mouse.preview != null)
+		{
+			Destroy(mouse.preview);
+			mouse.preview = null;
+		}
 		Destroy(grid);
 	}
 
@@ -452,9 +373,9 @@ public class GridV4 : MonoBehaviour
 		return !filledLocations.Contains(pos);
 	}
 
-	public GameObject GetCellObject(Vector3 pos)
+	public GameObject GetCellObject(GameObject ob)
 	{
-		return objectsInScene.Find(obj => obj.transform.position == pos);
+		return objectsInScene.Find(obj => obj == ob);
 	}
 
 	public void PlaceOnCell(GameObject obj, Vector3 pos, Transform parent)
@@ -462,38 +383,58 @@ public class GridV4 : MonoBehaviour
 		GameObject o = obj;
 		GameObject e = Instantiate(o, pos, Quaternion.identity);
 		e.transform.parent = parent;
-		GBuilding t = e.GetComponent<GBuilding>();
+		GBuilding t = e.GetComponentInChildren<GBuilding>();
 		if (t != null)
 		{
 			t.BeginProduction();
+			t.GetComponentInChildren<MeshCollider>().isTrigger = false;
+			t.GetComponentInChildren<Building>().selectionArea.SetActive(false);
 		}
-		AddObjectToLocations(pos);
-		AddObjectToScene(e);
+		Camera.main.fieldOfView = 14f;
+		RegisterObject(pos, e);
 	}
 
-	public void AddObjectToLocations(Vector3 pos)
+	public void PlaceOnCell(GameObject obj, Vector3 pos, Quaternion rotation, Transform parent)
+	{
+		GameObject o = obj;
+		GameObject e = Instantiate(o, pos, rotation);
+		e.transform.parent = parent;
+		GBuilding t = e.GetComponentInChildren<GBuilding>();
+		if (t != null)
+		{
+			t.BeginProduction();
+			t.GetComponentInChildren<MeshCollider>().isTrigger = false;
+			t.GetComponentInChildren<Building>().selectionArea.SetActive(false);
+		}
+		Camera.main.fieldOfView = 14f;
+		RegisterObject(pos, e);
+	}
+
+	public void RegisterObject(Vector3 pos, GameObject obj)
+	{
+		AddToFilled(pos);
+		AddToObjectsInScene(obj);
+	}
+
+	private void AddToFilled(Vector3 pos)
 	{
 		filledLocations.Add(pos);
 	}
 
-	public void RemoveObjectFromLocations(Vector3 pos)
-	{
-		filledLocations.Remove(pos);
-	}
-
-	public void AddObjectToScene(GameObject obj)
+	private void AddToObjectsInScene(GameObject obj)
 	{
 		objectsInScene.Add(obj);
 	}
 
-	public void RemoveObjectFromScene(GameObject obj)
+	public void RemoveObjectFromLocations(Vector3 pos, GameObject obj)
 	{
+		filledLocations.Remove(pos);
 		objectsInScene.Remove(obj);
 	}
 
 	public Vector3 GetMouseTileCoordinate()
 	{
-		return mouseOver.GetMousePosition();
+		return mouse.GetMousePosition();
 	}
 
 	public Vector3 GetTileCoordinate(Vector3 hitInfo)
@@ -508,6 +449,11 @@ public class GridV4 : MonoBehaviour
 
 		return currentTileCoord;
 
+	}
+
+	public bool IsPlacingBuilding()
+	{
+		return mouse.preview != null;
 	}
 
 	// Update is called once per frame

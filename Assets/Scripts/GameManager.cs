@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
 	private float numWood;
 	[SerializeField]
 	private float numGold;
+	
 
 
 
@@ -38,9 +39,17 @@ public class GameManager : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update()
+	public void Update()
 	{
-
+		if (Input.GetKeyDown(KeyCode.B))
+		{
+			if (PlacingObject())
+			{
+				CancelBuild();
+				return;
+			}
+			hudManager.ToggleBuildMode();
+		}
 	}
 
 	public void Spawn()
@@ -88,18 +97,24 @@ public class GameManager : MonoBehaviour
 	}
 	public void InitBuild(GameObject obj)
 	{
+		Camera.main.fieldOfView = 25f;
 		grid.InitCells(obj);
 	}
 
 	public void CancelBuild()
 	{
+		Camera.main.fieldOfView = 14f;
 		grid.DestroyCells();
 	}
 
 	public void DeregisterGridObject(GameObject obj)
 	{
-		grid.RemoveObjectFromLocations(obj.transform.position);
-		grid.RemoveObjectFromScene(obj);
+		grid.RemoveObjectFromLocations(obj.transform.position, obj);
+	}
+
+	public bool PlacingObject()
+	{
+		return grid.IsPlacingBuilding();
 	}
 
 }

@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections;
-using System.Runtime.InteropServices;
-
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(GridV4))]
 public class GridMouse : MonoBehaviour
@@ -28,14 +27,19 @@ public class GridMouse : MonoBehaviour
 	public void ActivatePreview(GameObject building)
 	{
 		this.building = building;
-		this.preview = Instantiate(building, new Vector3(1000, 0, 1000), Quaternion.identity);
+		this.preview = Instantiate(building, new Vector3(0, 0, 0), Quaternion.identity);
 	}
 
 	// Update is called once per frame
-	void Update()
+	void FixedUpdate()
 	{
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit hitInfo;
+
+		if(EventSystem.current.IsPointerOverGameObject())
+		{
+			return;
+		}
 
 		// Cursor on the map
 		if (col.Raycast(ray, out hitInfo, Mathf.Infinity))
@@ -50,15 +54,24 @@ public class GridMouse : MonoBehaviour
 			// In build mode and cursor on the map
 			if (_tileMap.buildMode)
 			{
-				//selectionCube.gameObject.SetActive(false);
+				selectionCube.gameObject.SetActive(false);
 				if (preview != null)
 				{
 					preview.transform.position = currentTileCoord;
 				}
+				if(Input.GetKeyDown(KeyCode.R))
+				{
+					preview.transform.Rotate(new Vector3(0, 90, 0), Space.Self);
+				}
 				if (Input.GetMouseButtonDown(0))
 				{
-					_tileMap.PlaceOnCell(building, currentTileCoord, _tileMap.gameObject.transform);
-					_tileMap.DestroyCells();
+					if (preview.GetComponentInChildren<Building>().isValidPosition)
+					{
+						_tileMap.PlaceOnCell(building, currentTileCoord, preview.transform.rotation, _tileMap.gameObject.transform);
+						Destroy(preview);
+						preview = null;
+						_tileMap.DestroyCells();
+					}
 				}
 			}
 
