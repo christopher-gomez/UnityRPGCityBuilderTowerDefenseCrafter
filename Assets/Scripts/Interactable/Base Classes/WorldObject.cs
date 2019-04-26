@@ -6,7 +6,7 @@ public abstract class WorldObject : MonoBehaviour, Interactable
 {
 	public enum ObjectType
 	{
-		NaturalResource, GeneratedResource, Consumable, Weapon, Armor, Building, Animal, Enemy, NPC
+		NaturalResource, GeneratedResource, Pickup, Weapon, Armor, Building, Animal, Enemy, NPC
 	}
 	public string ObjectName;
 	protected GameManager gameManager;
@@ -22,7 +22,6 @@ public abstract class WorldObject : MonoBehaviour, Interactable
 	public string description;
 
 	protected Collider col;
-	// Start is called before the first frame update
 
 	public void OnBecameVisible()
 	{

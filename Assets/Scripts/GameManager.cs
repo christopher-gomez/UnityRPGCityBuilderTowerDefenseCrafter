@@ -86,11 +86,6 @@ public class GameManager : MonoBehaviour
 				break;
 		}
 	}
-
-	public void MovePlayer(Vector3 pos)
-	{
-		player.Move(pos);
-	}
 	public void InitBuild(GameObject obj)
 	{
 		grid.InitCells(obj);
@@ -101,7 +96,7 @@ public class GameManager : MonoBehaviour
 		grid.DestroyCells();
 	}
 
-	public void DeregisterObject(GameObject obj)
+	public void DeregisterGridObject(GameObject obj)
 	{
 		grid.RemoveObjectFromLocations(obj.transform.position);
 		grid.RemoveObjectFromScene(obj);

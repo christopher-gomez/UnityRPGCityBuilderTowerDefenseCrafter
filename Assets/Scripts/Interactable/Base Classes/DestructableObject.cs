@@ -24,12 +24,11 @@ public abstract class DestructableObject : WorldObject, Destructable
 		health -= damage;
 		if (health <= 0)
 		{
-			Vector3 t = gameObject.transform.position;
-			Destroy(gameObject);
 			if (dropsItem)
 			{
-				Instantiate(dropPrefab, t, Quaternion.identity);
+				Instantiate(dropPrefab, transform.position, Quaternion.identity);
 			}
+			Destroy(gameObject);
 		}
 	}
 
@@ -41,15 +40,10 @@ public abstract class DestructableObject : WorldObject, Destructable
 		Debug.Log("Health: " + health);
 
 		// Check if player is next to object
-		if(gameManager.IsPlayerNextToTile(transform.position))
+		if (gameManager.IsPlayerNextToTile(transform.position))
 		{
+			// Take damage
 			TakeDamage(1);
 		}
-		else
-		{
-			gameManager.MovePlayer(transform.position);
-		}
-
-		// Take damage
 	}
 }

@@ -7,50 +7,59 @@ public class Inventory : MonoBehaviour
 	//WorldObject[] slots;
 
 	List<WorldObject> slots;
+	GameObject inventoryObj;
+
+	[SerializeField]
+	private int maxSlots = 10;
 
 	//float totalWeight = 0.0f;
 	//int gold = 0;
 
-	private Player player;
-
 	public void Start()
 	{
-		player = GetComponent<Player>();
 		slots = new List<WorldObject>();
+		slots.Capacity = maxSlots;
+		inventoryObj = new GameObject();
+		inventoryObj.name = "Inventory";
+		inventoryObj.transform.parent = transform.parent;
 	}
 
-	public void AddItem(WorldObject obj)
+	public void AddItem(Collider col)
 	{
-		WorldObject worldObj = obj.GetComponent<WorldObject>();
+		Debug.Log("Adding object");
+		WorldObject worldObj = col.gameObject.GetComponent<WorldObject>();
 
 		Pickupable item = worldObj.GetComponent<Pickupable>();
 
-		for (int i = 0; i + 1 <= slots.Count; i++)
+		if(slots.Count == 0)
 		{
-
-			if (slots[i].ObjectName == obj.ObjectName)
+			slots.Add(worldObj);
+			worldObj.transform.parent.transform.parent = inventoryObj.transform;
+			worldObj.transform.parent.gameObject.SetActive(false);
+		}
+		else if(slots.Count == maxSlots)
+		{
+			Debug.Log("Your inventory is full. Drop something to open a slot.");
+			return;
+		}
+		else
+		{
+			bool inInv = false;
+			for (int i = 0; i < slots.Count; i++)
 			{
-
-				slots[i].GetComponent<Pickupable>().IncrementStacks(item.GetStacks());
-				Destroy(obj);
-				break;
+				if (slots[i].ObjectName == worldObj.ObjectName)
+				{
+					inInv = true;
+					slots[i].GetComponent<Pickupable>().IncrementStacks(item.GetStacks());
+					Destroy(col.gameObject.transform.parent.gameObject);
+					break;
+				}
 			}
-			if (slots[i] == null)
+			if(inInv == false )
 			{
-				slots[i] = obj;
-				//totalWeight += item.weight;
-				obj.transform.parent = transform;
-				obj.gameObject.SetActive(false);
-
-				//var abilityArray = new Array(player.GetComponent(AbilityCaster).abilities);
-				//abilityArray.Add(item.ability);
-				//player.GetComponent(AbilityCaster).abilities = abilityArray;
-				break;
-			}
-			else if (i + 1 >= slots.Count)
-			{
-				Debug.Log("Your inventory is full. Drop something to open a slot.");
-				break;
+				slots.Add(worldObj);
+				worldObj.transform.parent.transform.parent = inventoryObj.transform;
+				worldObj.transform.parent.gameObject.SetActive(false);
 			}
 		}
 	}

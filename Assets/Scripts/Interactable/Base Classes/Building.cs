@@ -10,6 +10,8 @@ public abstract class Building : WorldObject
 	}
 	public string buildingName;
 
+	public Vector2 lengthByWidth;
+
 	public override void OnLeftClick()
 	{
 		base.OnLeftClick();

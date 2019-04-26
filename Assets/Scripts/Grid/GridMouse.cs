@@ -12,8 +12,10 @@ public class GridMouse : MonoBehaviour
 
 	public Transform selectionCube;
 
+	[HideInInspector]
 	public GameObject building = null;
 
+	[HideInInspector]
 	public GameObject preview = null;
 	private Collider col;
 
@@ -65,7 +67,7 @@ public class GridMouse : MonoBehaviour
 			{
 				if (Input.GetMouseButtonDown(0))
 				{
-					_tileMap.MovePlayer(currentTileCoord);
+					// _tileMap.MovePlayer(currentTileCoord);
 				}
 			}
 		}

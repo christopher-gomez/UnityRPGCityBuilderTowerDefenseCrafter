@@ -107,7 +107,7 @@ public class GridV4 : MonoBehaviour
 
 	public void MovePlayer(Vector3 pos)
 	{
-		gm.MovePlayer(pos);
+		// gm.MovePlayer(pos);
 	}
 
 	private void SpawnPlayer()
