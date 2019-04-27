@@ -23,7 +23,7 @@ public class Inventory : MonoBehaviour
 		slots.Capacity = maxSlots;
 		inventoryObj = new GameObject();
 		inventoryObj.name = "Inventory";
-		inventoryObj.transform.parent = transform.parent;
+		inventoryObj.transform.parent = transform;
 	}
 
 	public void Start()

@@ -17,9 +17,9 @@ public abstract class NatureObject : DestructableObject
 		base.Update();
 	}
 
-	public override void TakeDamage(int damage)
+	public override void TakeDamage(int damage, Tool.ToolType t)
 	{
-		base.TakeDamage(damage);
+		base.TakeDamage(damage, t);
 		gameManager.DeregisterGridObject(gameObject);
 	}
 }

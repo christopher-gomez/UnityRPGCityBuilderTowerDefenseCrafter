@@ -19,14 +19,16 @@ public abstract class DestructableObject : WorldObject, Destructable
 		return health;
 	}
 
-	public virtual void TakeDamage(int damage)
+	public virtual void TakeDamage(int damage, Tool.ToolType properType)
 	{
 		health -= damage;
 		if (health <= 0)
 		{
 			if (dropsItem)
 			{
-				Instantiate(dropPrefab, transform.position, Quaternion.identity);
+				Debug.Log(properType);
+				if(properType == Tool.ToolType.Axe)
+					Instantiate(dropPrefab, transform.position, Quaternion.identity);
 			}
 			Destroy(gameObject);
 		}
@@ -39,8 +41,15 @@ public abstract class DestructableObject : WorldObject, Destructable
 
 	public void OnTriggerEnter(Collider col)
 	{
+		Player player = col.GetComponent<Player>();
+		if(player != null)
+		{
+			return;
+		}
 		//Debug.Log("trigger ("+col.gameObject.name+") entered "+gameObject.name);
-		TakeDamage(1);
+		Tool tool = col.transform.parent.GetComponent<Tool>();
+		if(tool != null)
+			TakeDamage(tool.damage, tool.toolType);
 	}
 
 	public override void OnRightClick()

@@ -38,7 +38,17 @@ public abstract class Building : WorldObject
 
 	public void OnTriggerEnter(Collider col)
 	{
-		WorldObject obj = col.gameObject.transform.parent.GetComponentInChildren<WorldObject>();
+		if(col.gameObject.name == "World")
+		{
+			return;
+		}
+		Player player = col.GetComponent<Player>();
+		if(player != null)
+		{
+			isValidPosition = false;
+			return;
+		}
+		WorldObject obj = col.transform.parent.GetComponentInChildren<WorldObject>();
 		if (obj == null)
 		{
 			return;
@@ -47,15 +57,22 @@ public abstract class Building : WorldObject
 		{
 			// Debug.Log("Collision with " + obj.ObjectName);
 			isValidPosition = false;
-			foreach(Transform t in selectionArea.transform)
-			{
-				t.GetComponentInChildren<MeshRenderer>().material = invalidPosition;
-			}
+			SelectionAreaColor(isValidPosition);
 		}
 	}
 
 	public void OnTriggerExit(Collider col)
 	{
+		if (col.gameObject.name == "World")
+		{
+			return;
+		}
+		Player player = col.GetComponent<Player>();
+		if (player != null)
+		{
+			isValidPosition = true;
+			return;
+		}
 		WorldObject obj = col.gameObject.transform.parent.GetComponentInChildren<WorldObject>();
 		if (obj == null)
 		{
@@ -65,9 +82,24 @@ public abstract class Building : WorldObject
 		{
 			// Debug.Log("Collision with " + obj.ObjectName);
 			isValidPosition = true;
+			SelectionAreaColor(isValidPosition);
+		}
+	}
+
+	private void SelectionAreaColor(bool isValid)
+	{
+		if(isValid)
+		{
 			foreach (Transform t in selectionArea.transform)
 			{
 				t.GetComponentInChildren<MeshRenderer>().material = validPosition;
+			}
+		}
+		else
+		{
+			foreach (Transform t in selectionArea.transform)
+			{
+				t.GetComponentInChildren<MeshRenderer>().material = invalidPosition;
 			}
 		}
 	}

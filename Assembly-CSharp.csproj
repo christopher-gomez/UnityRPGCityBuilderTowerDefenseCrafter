@@ -104,8 +104,6 @@
      <Compile Include="Assets\External Assets\SampleScenes\Scripts\ParticleSceneControls.cs" />
      <Compile Include="Assets\External Assets\SampleScenes\Scripts\PlaceTargetWithMouse.cs" />
      <Compile Include="Assets\External Assets\SampleScenes\Scripts\SlowMoButton.cs" />
-     <Compile Include="Assets\MahekAssets\MyM07_v2Script.cs" />
-     <Compile Include="Assets\MahekAssets\MyM07Script.cs" />
      <Compile Include="Assets\Scripts\Camera\CameraAnchor.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Grid\GridMouse.cs" />
@@ -122,6 +120,7 @@
      <Compile Include="Assets\Scripts\Interactable\Base Classes\NatureObject.cs" />
      <Compile Include="Assets\Scripts\Interactable\Base Classes\WorldObject.cs" />
      <Compile Include="Assets\Scripts\Interactable\Objects\Buildings\Farm.cs" />
+     <Compile Include="Assets\Scripts\Interactable\Objects\Items\Tool.cs" />
      <Compile Include="Assets\Scripts\Interactable\Objects\Items\Wood.cs" />
      <Compile Include="Assets\Scripts\Interactable\Objects\Natural\Flower.cs" />
      <Compile Include="Assets\Scripts\Interactable\Objects\Natural\Grass.cs" />

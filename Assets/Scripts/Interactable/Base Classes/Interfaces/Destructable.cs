@@ -5,6 +5,6 @@ using UnityEngine;
 public interface Destructable
 {
 	int GetHealth();
-	void TakeDamage(int dam);
+	void TakeDamage(int dam, Tool.ToolType properType);
 	void OnRightClick();
 }
