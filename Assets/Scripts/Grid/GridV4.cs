@@ -390,7 +390,7 @@ public class GridV4 : MonoBehaviour
 			t.GetComponentInChildren<MeshCollider>().isTrigger = false;
 			t.GetComponentInChildren<Building>().selectionArea.SetActive(false);
 		}
-		Camera.main.fieldOfView = 14f;
+		Camera.main.fieldOfView = 10f;
 		RegisterObject(pos, e);
 	}
 
@@ -406,7 +406,7 @@ public class GridV4 : MonoBehaviour
 			t.GetComponentInChildren<MeshCollider>().isTrigger = false;
 			t.GetComponentInChildren<Building>().selectionArea.SetActive(false);
 		}
-		Camera.main.fieldOfView = 14f;
+		Camera.main.fieldOfView = 10f;
 		RegisterObject(pos, e);
 	}
 

@@ -6,22 +6,20 @@ using UnityEngine.AI;
 [RequireComponent(typeof(PlayerControlInput))]
 public class PlayerController : MonoBehaviour
 {
-	private NavMeshAgent agent;
 
 	[SerializeField]
 	private GameManager gm;
-
 	private CharacterController control;
-
 	[SerializeField]
 	private float speed = 10f;
-
-
+	private Animator mo7Anim;
+	private Player player;
 
 	public void Start()
 	{
-		agent = GetComponent<NavMeshAgent>();
 		control = GetComponent<CharacterController>();
+		mo7Anim = GetComponent<Animator>();
+		player = GetComponent<Player>();
 	}
 
 	public bool NextToTile(Vector3 pos)
@@ -29,22 +27,38 @@ public class PlayerController : MonoBehaviour
 		return Vector3.Distance(pos, transform.position) < 1.5f;
 	}
 
-	public void Move(Vector3 pos)
+	public void Move(Vector3 pos, bool walking)
 	{
+		mo7Anim.SetFloat("walk_speed", speed);
+		mo7Anim.SetBool("walking", walking);
 		control.Move(pos * Time.deltaTime * speed);
 		if (pos != Vector3.zero)
 			transform.forward = pos;
 	}
 
-	public void Update()
+	public void FixedUpdate()
 	{
-		Vector3 mousePos = gm.MousePosition();
-		Vector3 lookAt = new Vector3(mousePos.x, transform.position.y, mousePos.z);
-		var heading = lookAt - transform.position;
-		var distance = heading.magnitude;
-		var direction = heading / distance;
-		
-		if(direction != transform.position/transform.position.magnitude)
-			transform.LookAt(lookAt);
+
+		if (Input.GetMouseButtonDown(1))
+		{
+			mo7Anim.SetTrigger("attack");
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			RaycastHit hitInfo;
+			if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity))
+			{
+				Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				Vector3 lookAt = new Vector3(hitInfo.point.x, transform.position.y, hitInfo.point.z);
+				var heading = lookAt - transform.position;
+				var distance = heading.magnitude;
+				var direction = heading / distance;
+
+				if (direction != transform.position / transform.position.magnitude)
+				{
+					transform.LookAt(lookAt);
+					transform.forward = heading;
+				}
+				//
+			}
+		}
 	}
 }

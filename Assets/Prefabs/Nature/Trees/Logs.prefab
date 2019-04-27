@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6196732077932955379}
   - component: {fileID: 1602072448664406529}
   - component: {fileID: 1135957627391838193}
-  - component: {fileID: 1503806774407286203}
+  - component: {fileID: 287980074712550567}
   m_Layer: 0
   m_Name: Firewood_Stack_3
   m_TagString: Untagged
@@ -109,7 +109,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1503806774407286203
+--- !u!114 &287980074712550567
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,10 +118,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6196732077930764337}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 254604dd8f4a44bf690c674f4a4c726e, type: 3}
+  m_Script: {fileID: 11500000, guid: 78a10169fdb104d1daebb54b2484caf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjectName: Wood Logs
+  ObjectName: Wood
   objType: 2
   description: 
   stacks: 1

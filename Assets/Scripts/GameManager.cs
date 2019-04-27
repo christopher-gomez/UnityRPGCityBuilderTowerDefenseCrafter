@@ -16,8 +16,7 @@ public class GameManager : MonoBehaviour
 	private GridV4 grid;
 	[SerializeField]
 	public GameObject[] buildings;
-	[SerializeField]
-	private GameObject[] trees;
+	
 	[SerializeField]
 	private int population;
 	[SerializeField]
@@ -29,9 +28,6 @@ public class GameManager : MonoBehaviour
 	[SerializeField]
 	private float numGold;
 	
-
-
-
 	void Awake()
 	{
 		grid = land.GetComponent<GridV4>();
@@ -76,7 +72,7 @@ public class GameManager : MonoBehaviour
 		return player.NextToTile(pos);
 	}
 
-	public void IncrementResource(Building.ResourceType type, float amt)
+	public void IncrementGeneratedResource(Building.ResourceType type, float amt)
 	{
 		switch (type)
 		{
@@ -95,6 +91,39 @@ public class GameManager : MonoBehaviour
 				break;
 		}
 	}
+
+	public void IncrementResource(Item.PickupType type, float amt)
+	{
+		switch(type)
+		{
+			case Item.PickupType.Wood:
+				numWood += amt;
+				break;
+			case Item.PickupType.Gold:
+				numGold += amt;
+				break;
+		}
+	}
+
+	public float GetWood()
+	{
+		return this.numWood;
+	}
+
+	public float GetFood()
+	{
+		return this.numFood;
+	}
+
+	public float GetGold()
+	{
+		return this.numGold;
+	}
+
+	public float GetStone()
+	{
+		return this.numStone;
+	}
 	public void InitBuild(GameObject obj)
 	{
 		Camera.main.fieldOfView = 25f;
@@ -103,7 +132,7 @@ public class GameManager : MonoBehaviour
 
 	public void CancelBuild()
 	{
-		Camera.main.fieldOfView = 14f;
+		Camera.main.fieldOfView = 10f;
 		grid.DestroyCells();
 	}
 

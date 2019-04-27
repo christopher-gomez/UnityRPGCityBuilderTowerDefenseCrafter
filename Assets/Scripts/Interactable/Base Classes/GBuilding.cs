@@ -31,7 +31,7 @@ public abstract class GBuilding : Building
 		totalGeneratedResources += generatedResource;
 		//Debug.Log("Generated " + generatedResource + " " + resource.ToString());
 		//Debug.Log("Total " + resource.ToString() + " generated: " + totalGeneratedResources);
-		gameManager.IncrementResource(type, generatedResource);
+		gameManager.IncrementGeneratedResource(type, generatedResource);
 	}
 
 	private float CalculateResource()

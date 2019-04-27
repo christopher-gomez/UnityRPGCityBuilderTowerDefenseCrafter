@@ -15,9 +15,6 @@ public class PlayerControlInput : MonoBehaviour
 	private float normal_angle = 0;
 	private float smooth = 5f;
 
-	private GameObject hand;
-
-
 	private void Start()
 	{
 		// get the transform of the main camera
@@ -34,7 +31,6 @@ public class PlayerControlInput : MonoBehaviour
 
 		// get the third person character ( this should never be null due to require component )
 		m_Character = GetComponent<PlayerController>();
-		hand = GetComponent<Player>().hand;
 	}
 
 
@@ -47,6 +43,7 @@ public class PlayerControlInput : MonoBehaviour
 	// Fixed update is called in sync with physics
 	private void FixedUpdate()
 	{
+		bool walking = false;
 		// read inputs
 		float h = CrossPlatformInputManager.GetAxis("Horizontal");
 		float v = CrossPlatformInputManager.GetAxis("Vertical");
@@ -57,14 +54,22 @@ public class PlayerControlInput : MonoBehaviour
 			// calculate camera relative direction to move:
 			m_CamForward = Vector3.Scale(m_Cam.forward, new Vector3(1, 0, 1)).normalized;
 			m_Move = v * m_CamForward + h * m_Cam.right;
+			if (m_Move.magnitude > 0)
+			{
+				walking = true;
+			}
 		}
 		else
 		{
 			// we use world-relative directions in the case of no main camera
 			m_Move = v * Vector3.forward + h * Vector3.right;
+			if(m_Move.magnitude > 0)
+			{
+				walking = true;
+			}
 		}
 		
 		// pass all parameters to the character control script
-		m_Character.Move(m_Move);
+		m_Character.Move(m_Move, walking);
 	}
 }

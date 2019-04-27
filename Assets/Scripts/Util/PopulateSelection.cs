@@ -6,8 +6,14 @@ using UnityEngine.UI;
 public class PopulateSelection : MonoBehaviour
 {
 	public GameObject buttonPrefab;
-
 	private GameObject[] btns;
+	[SerializeField]
+	private Text totalWood;
+	[SerializeField]
+	private Text totalStone;
+	[SerializeField]
+	private Text totalGold;
+	public GameManager gm;
 
 	public void Populate(GameObject[] buildings)
 	{
@@ -19,6 +25,9 @@ public class PopulateSelection : MonoBehaviour
 			btns[i].GetComponent<BuildingSelection>().Init(building);
 			i++;
 		}
+		totalWood.text = gm.GetWood().ToString();
+		totalGold.text = gm.GetGold().ToString();
+		totalStone.text = gm.GetStone().ToString();
 	}
 
     public void Depopulate()

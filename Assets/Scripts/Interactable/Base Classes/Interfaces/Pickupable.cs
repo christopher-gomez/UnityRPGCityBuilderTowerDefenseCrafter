@@ -10,4 +10,5 @@ public interface Pickupable
 	void IncrementStacks(int stacks);
 	GameObject GetIconPrefab();
 	GameObject GetIcon();
+	Item.PickupType GetPickupType();
 }

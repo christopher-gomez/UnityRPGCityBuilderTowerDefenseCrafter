@@ -15,13 +15,20 @@ public class Inventory : MonoBehaviour
 	//float totalWeight = 0.0f;
 	//int gold = 0;
 
-	public void Start()
+	private GameManager gm;
+
+	public void Awake()
 	{
 		slots = new List<WorldObject>();
 		slots.Capacity = maxSlots;
 		inventoryObj = new GameObject();
 		inventoryObj.name = "Inventory";
 		inventoryObj.transform.parent = transform.parent;
+	}
+
+	public void Start()
+	{
+		gm = FindObjectOfType<GameManager>();
 	}
 
 	public void AddItem(Collider col)
@@ -31,13 +38,20 @@ public class Inventory : MonoBehaviour
 
 		Pickupable item = worldObj.GetComponent<Pickupable>();
 
-		if(slots.Count == 0)
+		if(item.GetPickupType() == Item.PickupType.Health)
+		{
+			// Increment player health
+			return;
+		}
+
+		if (slots.Count == 0)
 		{
 			slots.Add(worldObj);
 			worldObj.transform.parent.transform.parent = inventoryObj.transform;
 			worldObj.transform.parent.gameObject.SetActive(false);
+			gm.IncrementResource(item.GetPickupType(), item.GetStacks());
 		}
-		else if(slots.Count == maxSlots)
+		else if (slots.Count == maxSlots)
 		{
 			Debug.Log("Your inventory is full. Drop something to open a slot.");
 			return;
@@ -51,13 +65,15 @@ public class Inventory : MonoBehaviour
 				{
 					inInv = true;
 					slots[i].GetComponent<Pickupable>().IncrementStacks(item.GetStacks());
+					gm.IncrementResource(item.GetPickupType(), item.GetStacks());
 					Destroy(col.gameObject.transform.parent.gameObject);
 					break;
 				}
 			}
-			if(inInv == false )
+			if (inInv == false)
 			{
 				slots.Add(worldObj);
+				gm.IncrementResource(item.GetPickupType(), item.GetStacks());
 				worldObj.transform.parent.transform.parent = inventoryObj.transform;
 				worldObj.transform.parent.gameObject.SetActive(false);
 			}
@@ -93,24 +109,24 @@ public class Inventory : MonoBehaviour
 
 	//function MoveItem(from : int, to : int)
 	//{
-		/*if (slots[from])
+	/*if (slots[from])
+	{
+		if (slots[to])
 		{
-			if (slots[to])
-			{
-				var switchedSlot : GameObject = slots[to];
-				slots[to] = slots[from];
-				slots[from] = switchedSlot;
-			}
-			else
-			{
-				slots[to] = slots[from];
-				slots[from] = null;
-			}
+			var switchedSlot : GameObject = slots[to];
+			slots[to] = slots[from];
+			slots[from] = switchedSlot;
 		}
 		else
 		{
-			Debug.LogWarning("Attempting to move a missing item; there is no item at slot: " + from);
+			slots[to] = slots[from];
+			slots[from] = null;
+		}
+	}
+	else
+	{
+		Debug.LogWarning("Attempting to move a missing item; there is no item at slot: " + from);
 
-		}*/
+	}*/
 	//}
 }

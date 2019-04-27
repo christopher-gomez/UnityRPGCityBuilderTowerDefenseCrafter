@@ -44,8 +44,6 @@ public class GridMouse : MonoBehaviour
 		// Cursor on the map
 		if (col.Raycast(ray, out hitInfo, Mathf.Infinity))
 		{
-			int x = Mathf.FloorToInt((float)hitInfo.point.x / _tileMap.tileSize);
-			int z = Mathf.FloorToInt((float)hitInfo.point.z / _tileMap.tileSize);
 
 			currentTileCoord = _tileMap.GetTileCoordinate(hitInfo.point);
 
