@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
 			{
 				move *= player.runSpeed;
 			}
-			player.hud.UpdateStamina(player.stamina.ToString("f0"));
+			player.hud.UpdateStamina(player.stamina, player.maxStamina);
 		}
 		mo7Anim.SetBool("running", player.running);
 		control.Move(move);
@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
 		{
 			player.stamina -= player.dashStaminaCost;
 			mo7Anim.SetTrigger("dash");
-			player.hud.UpdateStamina(player.stamina.ToString("f0"));
+			player.hud.UpdateStamina(player.stamina, player.maxStamina);
 			transform.position += transform.forward * 2f;
 		}
 	}
@@ -82,7 +82,7 @@ public class PlayerController : MonoBehaviour
 		{
 			player.stamina -= player.activeTool.staminaCost;
 			mo7Anim.SetTrigger("attack");
-			player.hud.UpdateStamina(player.stamina.ToString("f0"));
+			player.hud.UpdateStamina(player.stamina, player.maxStamina);
 		}
 	}
 

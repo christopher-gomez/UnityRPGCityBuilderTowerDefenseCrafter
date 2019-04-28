@@ -12,6 +12,8 @@ public class HUDManager : MonoBehaviour
 	private GameObject selectionMenu;
 	private PopulateSelection selectionContent;
 
+	public SimpleHealthBar healthBar;
+
 	void Awake()
 	{
 		selectionContent = selectionMenu.GetComponentInChildren<PopulateSelection>();
@@ -41,9 +43,21 @@ public class HUDManager : MonoBehaviour
 		totalFood.text = amt;
 	}
 
-	public void UpdateStamina(string amt)
+	public void UpdateStamina(float current, float max)
 	{
-		totalStamina.text = amt;
+		//totalStamina.text = amt;
+		healthBar.UpdateBar(current, max);
+		if(current <= max / 2)
+		{
+			if(current <= max /4)
+			{
+				healthBar.UpdateColor(Color.red);
+			}
+			else
+			{
+				healthBar.UpdateColor(Color.yellow);
+			}
+		}
 	}
 
 }

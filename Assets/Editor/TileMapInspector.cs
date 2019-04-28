@@ -11,7 +11,7 @@ public class TileMapInspector : Editor
 			if(GUILayout.Button("Regenerate"))
       {
 				GridV4 map = target as GridV4;
-				map.Generate();
+				map.EditorGenerate();
 			}
 		}
 }

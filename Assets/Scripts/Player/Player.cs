@@ -15,10 +15,7 @@ public class Player : MonoBehaviour
 	private GameObject[] handTools;
 	[HideInInspector]
 	public Tool activeTool;
-
-	[SerializeField]
-	private float maxStamina = 100f;
-
+	public float maxStamina = 100f;
 	[HideInInspector]
 	public float stamina;
 	[HideInInspector]
@@ -61,7 +58,7 @@ public class Player : MonoBehaviour
 					stamina += (Time.deltaTime * staminaRefreshRate);
 				else
 					stamina += (Time.deltaTime * staminaRefreshRate * staminaRefreshRate);
-				hud.UpdateStamina(stamina.ToString("f0"));
+				hud.UpdateStamina(stamina, maxStamina);
 			}
 		}
 		// Debug.Log("Stamina: " + stamina);
@@ -113,5 +110,10 @@ public class Player : MonoBehaviour
 	{
 		activeTool.inUse = false;
 		attacking = false;
+	}
+
+	public void UpdateStamina()
+	{
+
 	}
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshCollider))]
@@ -46,24 +46,32 @@ public class GridV4 : MonoBehaviour
 		gm = GetComponent<GameManager>();
 		limitX = sizeX - 1;
 		limitZ = sizeZ - 1;
+		
+	}
+	void Start()
+	{
 		foreach (Transform child in transform)
 		{
 			Destroy(child.gameObject);
 			Destroy(child);
 		}
-	}
-	void Start()
-	{
 		Generate();
 		//SpawnPlayer();
 	}
-	public void Generate()
+
+	public void EditorGenerate()
 	{
+		int i = 0;
 		foreach (Transform child in transform)
 		{
+			Debug.Log((i+1)+") Destroying: " + child.gameObject.name);
 			DestroyImmediate(child.gameObject);
-			DestroyImmediate(child);
+			i++;
 		}
+		Generate();
+	}
+	public void Generate()
+	{
 		locations = new List<Vector3>();
 		filledLocations = new List<Vector3>();
 		objectsInScene = new List<GameObject>();
@@ -97,11 +105,6 @@ public class GridV4 : MonoBehaviour
 		{
 			if (optimizeFlowersMesh)
 				OptimzeMesh(w, flowerMaterial);
-		}
-		//PlaceBaackground();
-		if (buildMode)
-		{
-			InitCells();
 		}
 	}
 
