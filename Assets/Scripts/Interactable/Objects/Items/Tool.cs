@@ -12,6 +12,11 @@ public class Tool : WorldObject
 
 	public int damage;
 
+	public float staminaCost;
+
+	[HideInInspector]
+	public bool inUse = false;
+
 	public override void Start()
     {
 		base.Start();

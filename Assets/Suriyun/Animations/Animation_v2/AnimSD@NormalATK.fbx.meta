@@ -417,14 +417,14 @@ ModelImporter:
       curves: []
       events:
       - time: 0
-        functionName: ActivateAxe
+        functionName: BeginToolAction
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.92047375
-        functionName: DeactivateAxe
+      - time: 0.42131978
+        functionName: EndToolAction
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

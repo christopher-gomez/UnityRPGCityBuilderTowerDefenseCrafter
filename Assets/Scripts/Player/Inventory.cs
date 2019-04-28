@@ -33,7 +33,6 @@ public class Inventory : MonoBehaviour
 
 	public void AddItem(Collider col)
 	{
-		Debug.Log("Adding object");
 		WorldObject worldObj = col.gameObject.GetComponent<WorldObject>();
 
 		Pickupable item = worldObj.GetComponent<Pickupable>();

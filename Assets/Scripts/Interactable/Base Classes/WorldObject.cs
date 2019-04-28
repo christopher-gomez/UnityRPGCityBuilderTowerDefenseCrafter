@@ -40,25 +40,12 @@ public abstract class WorldObject : MonoBehaviour, Interactable
 
 	public virtual void OnLeftClick()
 	{
-		Debug.Log("Left click on: " + ObjectName);
+		//Debug.Log("Left click on: " + ObjectName);
 	}
 
 	public virtual void OnRightClick()
 	{
-		Debug.Log("Right click on " + ObjectName);
-	}
-
-	public bool NoOverlap()
-	{
-		Collider[] hits = Physics.OverlapBox(transform.position, new Vector3(1, 0, 1));
-		if (hits.Length > 0)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		//Debug.Log("Right click on " + ObjectName);
 	}
 
 	public void CheckClick()

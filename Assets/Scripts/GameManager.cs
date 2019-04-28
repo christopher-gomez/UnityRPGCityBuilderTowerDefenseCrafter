@@ -17,15 +17,10 @@ public class GameManager : MonoBehaviour
 	[SerializeField]
 	public GameObject[] buildings;
 	
-	[SerializeField]
 	private int population;
-	[SerializeField]
 	private float numFood;
-	[SerializeField]
 	private float numStone;
-	[SerializeField]
 	private float numWood;
-	[SerializeField]
 	private float numGold;
 	
 	void Awake()

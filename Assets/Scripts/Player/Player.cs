@@ -13,17 +13,58 @@ public class Player : MonoBehaviour
 	PlayerControlInput ci;
 	[SerializeField]
 	private GameObject[] handTools;
-	void Start()
+	[HideInInspector]
+	public Tool activeTool;
+
+	[SerializeField]
+	private float maxStamina = 100f;
+
+	[HideInInspector]
+	public float stamina;
+	[HideInInspector]
+	public bool walking, running, attacking;
+	[SerializeField]
+	public float walkSpeed = 2.0f;
+	[SerializeField]
+	public float runSpeed = 2.0f;
+	public float staminaRefreshRate = 2;
+	public float runStaminaCost = 4;
+	public float dashStaminaCost = 10;
+
+	public HUDManager hud;
+
+	void Awake()
 	{
 		inventory = GetComponent<Inventory>();
 		controller = GetComponent<PlayerController>();
 		ci = GetComponent<PlayerControlInput>();
+		EquipAxe();
+		stamina = maxStamina;
+		walking = false; 
+		running = false;
+		attacking = false;
+	}
+
+	void Start()
+	{
+		
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-
+		if(running == false && attacking == false)
+		{
+			if (stamina < maxStamina)
+			{
+				if(walking == true)
+					stamina += (Time.deltaTime * staminaRefreshRate);
+				else
+					stamina += (Time.deltaTime * staminaRefreshRate * staminaRefreshRate);
+				hud.UpdateStamina(stamina.ToString("f0"));
+			}
+		}
+		// Debug.Log("Stamina: " + stamina);
 	}
 
 	public bool NextToTile(Vector3 pos)
@@ -31,9 +72,9 @@ public class Player : MonoBehaviour
 		return controller.NextToTile(pos);
 	}
 
-	public void Move(Vector3 pos)
+	public void Move(Vector3 pos, bool running)
 	{
-		controller.Move(pos, true);
+		controller.Move(pos, true, running);
 	}
 
 	void OnTriggerEnter(Collider col)
@@ -50,13 +91,27 @@ public class Player : MonoBehaviour
 		}
 	}
 
-	public void ActivateAxe()
+	public void EquipAxe()
 	{
-		handTools[0].SetActive(true);
+		activeTool = handTools[0].GetComponentInChildren<Tool>();
+		activeTool.gameObject.SetActive(true);
 	}
 
-	public void DeactivateAxe()
+	public void UnequipTool()
 	{
-		handTools[0].SetActive(false);
+		activeTool.gameObject.SetActive(false);
+		activeTool = null;
+	}
+
+	public void BeginToolAction()
+	{
+		activeTool.inUse = true;
+		attacking = true;
+	}
+
+	public void EndToolAction()
+	{
+		activeTool.inUse = false;
+		attacking = false;
 	}
 }

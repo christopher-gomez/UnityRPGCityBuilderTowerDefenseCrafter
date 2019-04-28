@@ -46,6 +46,11 @@ public class GridV4 : MonoBehaviour
 		gm = GetComponent<GameManager>();
 		limitX = sizeX - 1;
 		limitZ = sizeZ - 1;
+		foreach (Transform child in transform)
+		{
+			Destroy(child.gameObject);
+			Destroy(child);
+		}
 	}
 	void Start()
 	{
@@ -54,17 +59,14 @@ public class GridV4 : MonoBehaviour
 	}
 	public void Generate()
 	{
+		foreach (Transform child in transform)
+		{
+			DestroyImmediate(child.gameObject);
+			DestroyImmediate(child);
+		}
 		locations = new List<Vector3>();
 		filledLocations = new List<Vector3>();
 		objectsInScene = new List<GameObject>();
-		if (transform.childCount > 0)
-		{
-			foreach (Transform child in transform)
-			{
-				DestroyImmediate(child.gameObject);
-				DestroyImmediate(child);
-			}
-		}
 		GameObject t = null, g = null, w = null;
 		BuildMesh();
 		if (placeRandomTrees)

@@ -14,4 +14,9 @@ public class Grass : NatureObject
 		base.Update();
 	}
 
+	public override void OnTriggerEnter(Collider col)
+	{
+		
+	}
+
 }

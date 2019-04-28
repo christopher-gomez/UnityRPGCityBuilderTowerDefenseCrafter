@@ -7,7 +7,7 @@ public class HUDManager : MonoBehaviour
 {
 	public GameManager gameManager;
 	[SerializeField]
-	private Text totalFood;
+	private Text totalFood, totalStamina;
 	[SerializeField]
 	private GameObject selectionMenu;
 	private PopulateSelection selectionContent;
@@ -38,8 +38,12 @@ public class HUDManager : MonoBehaviour
 
 	public void UpdateFood(string amt)
 	{
-		totalFood.text = "";
 		totalFood.text = amt;
+	}
+
+	public void UpdateStamina(string amt)
+	{
+		totalStamina.text = amt;
 	}
 
 }

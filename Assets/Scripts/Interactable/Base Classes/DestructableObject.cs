@@ -24,12 +24,6 @@ public abstract class DestructableObject : WorldObject, Destructable
 		health -= damage;
 		if (health <= 0)
 		{
-			if (dropsItem)
-			{
-				Debug.Log(properType);
-				if(properType == Tool.ToolType.Axe)
-					Instantiate(dropPrefab, transform.position, Quaternion.identity);
-			}
 			Destroy(gameObject);
 		}
 	}
@@ -39,18 +33,7 @@ public abstract class DestructableObject : WorldObject, Destructable
 		Debug.Log("Collision detected in tree");
 	}
 
-	public void OnTriggerEnter(Collider col)
-	{
-		Player player = col.GetComponent<Player>();
-		if(player != null)
-		{
-			return;
-		}
-		//Debug.Log("trigger ("+col.gameObject.name+") entered "+gameObject.name);
-		Tool tool = col.transform.parent.GetComponent<Tool>();
-		if(tool != null)
-			TakeDamage(tool.damage, tool.toolType);
-	}
+	public abstract void OnTriggerEnter(Collider col);
 
 	public override void OnRightClick()
 	{

@@ -15,4 +15,26 @@ public class Tree : NatureObject
 	{
 		base.Update();
 	}
+
+	public override void TakeDamage(int damage, Tool.ToolType t)
+	{
+		base.TakeDamage(damage, t);
+		if (dropsItem)
+		{
+			if (t == Tool.ToolType.Axe)
+				Instantiate(dropPrefab, transform.position, Quaternion.identity);
+		}
+	}
+
+	public override void OnTriggerEnter(Collider col)
+	{
+		Player player = col.GetComponent<Player>();
+		if (player != null)
+		{
+			return;
+		}
+		Tool tool = col.transform.parent.GetComponent<Tool>();
+		if (tool != null && tool.inUse == true)
+			TakeDamage(tool.damage, tool.toolType);
+	}
 }

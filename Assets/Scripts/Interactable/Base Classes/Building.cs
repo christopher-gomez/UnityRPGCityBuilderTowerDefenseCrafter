@@ -46,6 +46,7 @@ public abstract class Building : WorldObject
 		if(player != null)
 		{
 			isValidPosition = false;
+			SelectionAreaColor(isValidPosition);
 			return;
 		}
 		WorldObject obj = col.transform.parent.GetComponentInChildren<WorldObject>();
@@ -71,6 +72,7 @@ public abstract class Building : WorldObject
 		if (player != null)
 		{
 			isValidPosition = true;
+			SelectionAreaColor(isValidPosition);
 			return;
 		}
 		WorldObject obj = col.gameObject.transform.parent.GetComponentInChildren<WorldObject>();
